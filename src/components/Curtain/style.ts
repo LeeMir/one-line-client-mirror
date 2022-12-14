@@ -9,4 +9,5 @@ export const CurtainContainer = styled(motion.div)`
   top: 0;
   position: fixed;
   background-image: url('${CurtainImg}');
+  background-size: cover;
 `;

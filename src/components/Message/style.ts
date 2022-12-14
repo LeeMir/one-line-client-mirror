@@ -17,6 +17,16 @@ export const MessageContainer = styled(motion.div)`
 
   background-color: ${ColorCode.OFFWHITE};
   box-shadow: 5px 15px 10px rgba(0, 0, 0, 0.35);
+
+  &:hover {
+    background-color: ${ColorCode.WHITE};
+    button img {
+      filter: invert(11%) sepia(82%) saturate(4489%) hue-rotate(356deg) brightness(91%)
+        contrast(117%);
+    }
+  }
+
+  transition: background-color 0.35s ease-in-out;
 `;
 
 export const MessageWrapper = styled.div`
@@ -29,12 +39,21 @@ export const MessageWrapper = styled.div`
   font-size: ${FontSize.L};
 `;
 
-export const RecommendBtn = styled.button`
+interface BtnValue {
+  selected: boolean;
+}
+
+export const RecommendBtn = styled.button<BtnValue>`
   width: 3rem;
+
+  img {
+    filter: ${(props) =>
+      props.selected
+        ? 'invert(11%) sepia(82%) saturate(4489%) hue-rotate(356deg) brightness(91%) contrast(117%)' // ColorCode.CURTAIN
+        : 'invert(70%)'};
+  }
 `;
 
 export const RecommendImg = styled.img`
   width: 100%;
-
-  filter: invert(70%);
 `;

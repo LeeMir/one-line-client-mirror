@@ -98,8 +98,8 @@ const SelectSection = ({ messageList }: SelectSectionValue) => {
             <Message
               key={idx}
               variants={motionChild}
-              category={item.category}
-              message={item.message}
+              title={item.title}
+              content={item.content}
               onClick={() => clickMessageHandler(idx)}
               selected={idx === selectedMsgIdx}
               layout

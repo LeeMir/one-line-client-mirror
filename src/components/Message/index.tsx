@@ -17,8 +17,8 @@ interface MessageComponentValue extends MessageValue {
 
 const Message = ({
   variants,
-  category,
-  message,
+  title,
+  content,
   onClick,
   layout = false,
   selected = false,
@@ -31,8 +31,8 @@ const Message = ({
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.25 }}
     >
-      <Category category={category} />
-      <MessageWrapper>{message}</MessageWrapper>
+      <Category category={title} />
+      <MessageWrapper>{content}</MessageWrapper>
       <RecommendBtn selected={selected}>
         <RecommendImg src={RecommendIcon} />
       </RecommendBtn>

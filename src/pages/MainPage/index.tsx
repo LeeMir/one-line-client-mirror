@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
@@ -12,15 +13,8 @@ import Curtain from '@/components/Curtain';
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
 
-import { MessageValue } from '@/types/message';
-
 import { PAGE_STATE } from '@/constants/state';
-
-const dummy: MessageValue[] = [
-  { category: '위로', message: '맘껏 울어라 억지로 버텨라 내일은 내일의 해가 뜰테니' },
-  { category: '사랑', message: '나의 하얀 옷에 너의 잉크가 묻어 닦아낼 수 없을만큼 번졌네' },
-  { category: '공부', message: '들은 것은 잊어버리고, 본 것은 기억하고 직접 해본 것은 이해한다' },
-];
+import { fetchGetThreeLines } from '@/apis/line';
 
 const EMPTY_SECTIONS = 6;
 
@@ -63,6 +57,8 @@ const MainPage = () => {
     setPageOffset(Math.floor(offset));
   };
 
+  const { status, data: msgList } = useQuery('getThreeLines', fetchGetThreeLines);
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -98,13 +94,16 @@ const MainPage = () => {
         <EmptySection key={idx} />
       ))}
       <Curtain progress={progress} />
-      <AnimatePresence mode='wait'>
-        {pageState <= PAGE_STATE.AFTER_SELECT ? (
-          <SelectSection key='section-select' messageList={dummy} />
-        ) : null}
-        {pageState === PAGE_STATE.INPUT ? <InputSection key='section-input' /> : null}
-      </AnimatePresence>
-
+      {status !== 'success' ? (
+        <>Loading...</>
+      ) : (
+        <AnimatePresence mode='wait'>
+          {pageState <= PAGE_STATE.AFTER_SELECT ? (
+            <SelectSection key='section-select' messageList={msgList as any} />
+          ) : null}
+          {pageState === PAGE_STATE.INPUT ? <InputSection key='section-input' /> : null}
+        </AnimatePresence>
+      )}
       <div ref={scrollBottomRef} />
     </MainPageContainer>
   );

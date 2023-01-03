@@ -14,6 +14,7 @@ import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
 
 import { PAGE_STATE } from '@/constants/state';
+import { API_KEYS } from '@/constants/apiKey';
 import { fetchGetThreeLines } from '@/apis/line';
 
 const EMPTY_SECTIONS = 6;
@@ -57,7 +58,7 @@ const MainPage = () => {
     setPageOffset(Math.floor(offset));
   };
 
-  const { status, data: msgList } = useQuery('getThreeLines', fetchGetThreeLines);
+  const { status, data: msgList } = useQuery(API_KEYS.GET_THREE_LINES, fetchGetThreeLines);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -99,7 +100,7 @@ const MainPage = () => {
       ) : (
         <AnimatePresence mode='wait'>
           {pageState <= PAGE_STATE.AFTER_SELECT ? (
-            <SelectSection key='section-select' messageList={msgList as any} />
+            <SelectSection key='section-select' messageList={msgList} />
           ) : null}
           {pageState === PAGE_STATE.INPUT ? <InputSection key='section-input' /> : null}
         </AnimatePresence>

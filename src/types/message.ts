@@ -1,6 +1,4 @@
-import { CategoryType } from './category';
-
 export interface MessageValue {
-  title: CategoryType;
+  title: string;
   content: string;
 }

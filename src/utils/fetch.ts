@@ -12,15 +12,11 @@ const getHeader = () => {
   return header;
 };
 
-interface CustomResponse extends Response {
-  [key: string]: any;
-}
-
 type RequestData = { [key: string]: string | number | any[] };
 
 const fetchApi = {
-  get: (path: string): Promise<CustomResponse> =>
-    fetch(`${baseUrl}${path}`, {
+  async get<T>(path: string): Promise<T> {
+    return fetch(`${baseUrl}${path}`, {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
@@ -32,10 +28,11 @@ const fetchApi = {
         return data;
       }
       throw new FetchError(response);
-    }),
+    });
+  },
 
-  post: (path: string, body: RequestData): Promise<CustomResponse> =>
-    fetch(`${baseUrl}${path}`, {
+  async post<T>(path: string, body: RequestData): Promise<T> {
+    return fetch(`${baseUrl}${path}`, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -48,34 +45,59 @@ const fetchApi = {
         return data;
       }
       throw new FetchError(response);
-    }),
+    });
+  },
 
-  put: (path: string, body: RequestData): Promise<CustomResponse> =>
-    fetch(`${baseUrl}${path}`, {
+  async put<T>(path: string, body: RequestData): Promise<T> {
+    return fetch(`${baseUrl}${path}`, {
       method: 'PUT',
       mode: 'cors',
       credentials: 'include',
       headers: getHeader(),
       body: JSON.stringify(body),
-    }),
+    }).then(async (response) => {
+      const data = await response.json();
 
-  patch: (path: string, body: RequestData): Promise<CustomResponse> =>
-    fetch(`${baseUrl}${path}`, {
+      if (response.ok) {
+        return data;
+      }
+      throw new FetchError(response);
+    });
+  },
+
+  async patch<T>(path: string, body: RequestData): Promise<T> {
+    return fetch(`${baseUrl}${path}`, {
       method: 'PATCH',
       mode: 'cors',
       credentials: 'include',
       headers: getHeader(),
       body: JSON.stringify(body),
-    }),
+    }).then(async (response) => {
+      const data = await response.json();
 
-  delete: (path: string, body?: RequestData): Promise<CustomResponse> =>
-    fetch(`${baseUrl}${path}`, {
+      if (response.ok) {
+        return data;
+      }
+      throw new FetchError(response);
+    });
+  },
+
+  async delete<T>(path: string, body?: RequestData): Promise<T> {
+    return fetch(`${baseUrl}${path}`, {
       method: 'DELETE',
       mode: 'cors',
       credentials: 'include',
       headers: getHeader(),
       body: JSON.stringify(body),
-    }),
+    }).then(async (response) => {
+      const data = await response.json();
+
+      if (response.ok) {
+        return data;
+      }
+      throw new FetchError(response);
+    });
+  },
 };
 
 export default fetchApi;

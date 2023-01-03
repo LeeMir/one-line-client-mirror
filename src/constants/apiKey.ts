@@ -1,0 +1,4 @@
+export const API_KEYS = {
+  GET_THREE_LINES: 'GET_THREE_LINES',
+  GET_TITLE_COLOR: 'GET_TITLE_COLOR',
+} as const;

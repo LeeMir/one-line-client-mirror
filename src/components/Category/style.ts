@@ -1,12 +1,9 @@
 import styled from 'styled-components';
 
-import { CategoryType } from '@/types/category';
-
 import { FontSize } from '@/constants/font';
-import { CategoryColorCode } from '@/constants/color';
 
 interface CategoryWrapperValue {
-  category: CategoryType;
+  color: string;
 }
 
 export const CategoryWrapper = styled.div<CategoryWrapperValue>`
@@ -20,5 +17,5 @@ export const CategoryWrapper = styled.div<CategoryWrapperValue>`
   border-radius: 1.5rem;
   font-size: ${FontSize.L};
 
-  background: ${(props) => CategoryColorCode[props.category] ?? ''};
+  background: ${(props) => props.color ?? ''};
 `;

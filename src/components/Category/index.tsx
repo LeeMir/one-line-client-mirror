@@ -1,13 +1,16 @@
+/* eslint-disable camelcase */
 import { CategoryWrapper } from './style';
 
-import { CategoryType } from '@/types/category';
+import useCategory from '@/hooks/useCategory';
 
 interface CategoryValue {
-  category: CategoryType;
+  category: string;
 }
 
 const Category = ({ category }: CategoryValue) => {
-  return <CategoryWrapper category={category}>{category}</CategoryWrapper>;
+  const dict = useCategory();
+  const { title_korean, color } = dict[category] ?? dict.unknown;
+  return <CategoryWrapper color={color}>{title_korean}</CategoryWrapper>;
 };
 
 export default Category;

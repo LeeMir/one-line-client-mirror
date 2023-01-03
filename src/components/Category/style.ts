@@ -4,6 +4,7 @@ import { FontSize } from '@/constants/font';
 
 interface CategoryWrapperValue {
   color: string;
+  backgroundColor: string;
 }
 
 export const CategoryWrapper = styled.div<CategoryWrapperValue>`
@@ -17,5 +18,6 @@ export const CategoryWrapper = styled.div<CategoryWrapperValue>`
   border-radius: 1.5rem;
   font-size: ${FontSize.L};
 
-  background: ${(props) => props.color ?? ''};
+  background-color: ${(props) => props.backgroundColor};
+  color: ${(props) => props.color};
 `;

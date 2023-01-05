@@ -13,6 +13,8 @@ import Curtain from '@/components/Curtain';
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
 
+import { getCookie } from '@/utils/cookie';
+
 import { PAGE_STATE } from '@/constants/state';
 import { API_KEYS } from '@/constants/apiKey';
 import { fetchGetThreeLines } from '@/apis/line';
@@ -27,7 +29,7 @@ const MainPage = () => {
   const { innerWidth } = window;
   const progress = useTransform(scrollYProgress, [0, 1], [0, innerWidth]);
 
-  const { isLock, lockScroll } = useScrollLock();
+  const { isLock, lockScroll, openScroll } = useScrollLock();
   const { getMainPageState, setMainPageState } = useMainPageState();
 
   const { pageState } = getMainPageState();
@@ -59,6 +61,11 @@ const MainPage = () => {
   };
 
   const { status, data: msgList } = useQuery(API_KEYS.GET_THREE_LINES, fetchGetThreeLines);
+
+  if (getCookie('session_id')) {
+    openScroll();
+    scrollToBottom();
+  }
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);

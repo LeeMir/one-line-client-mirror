@@ -1,5 +1,7 @@
 <div align="center">
-    <img src="https://user-images.githubusercontent.com/42960217/210502277-769f8821-f853-4777-89a2-6243270b7739.png" width="100" alt="project-logo" />
+    <a href="https://today-one-line.vercel.app/">
+      <img src="https://user-images.githubusercontent.com/42960217/210977153-feb77059-a582-4261-a983-c88c8442d131.png" width="150" alt="project-logo" />
+    </a>
     <h2> 오늘, 한 줄 </h2>
     <p>
         “지구 어딘가에서 누군가가 남긴 <b>한 줄</b>이 도착했습니다. <b>오늘,</b> 당신의 <b>한 줄</b>은 무엇이었나요?”

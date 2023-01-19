@@ -14,12 +14,15 @@ import {
   ResetButtonImg,
   LoginModalContainer,
   LoginModalText,
-} from './style';
+} from './InputSection.styled';
 
 import { KakaoLogin } from '@/components/OAuthLogin';
 
 import useModal from '@/hooks/useModal';
+import useMainPageState from '@/hooks/useMainPageState';
 import useLogin from '@/hooks/useLogin';
+
+import { LocationStateValue } from '@/types/location';
 
 import WaiterImg from '@/assets/images/waiter.png';
 import XIcon from '@/assets/icons/icon-x.svg';
@@ -48,10 +51,17 @@ const motionButton = {
   show: { opacity: 1, y: 0, transition: { ease: 'easeOut', duration: 0.5 } },
 };
 
-const InputSection = () => {
-  const [text, setText] = useState('');
+interface InputSectionValue {
+  state?: LocationStateValue;
+}
+
+const InputSection = ({ state }: InputSectionValue) => {
   const { showModal } = useModal();
   const { loginWithKakao } = useLogin();
+  const { getMainPageState } = useMainPageState();
+  const { selectedMsgIdx } = getMainPageState();
+
+  const [text, setText] = useState<string>((state?.content as string) ?? '');
 
   const inputTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value);
@@ -70,7 +80,7 @@ const InputSection = () => {
             <b>한 줄</b>을 남기기 위해서는 <br />
             로그인이 필요합니다.
           </LoginModalText>
-          <KakaoLogin onClick={() => loginWithKakao()} />
+          <KakaoLogin onClick={() => loginWithKakao(selectedMsgIdx, text)} />
         </LoginModalContainer>
       ),
     });

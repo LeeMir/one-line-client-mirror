@@ -1,4 +1,4 @@
-import { LoginImg, LoginWrapper } from './style';
+import { LoginImg, LoginWrapper } from './OAuthLogin.common.styled';
 
 import KakaoLoginImg from '@/assets/images/login-kakao.png';
 

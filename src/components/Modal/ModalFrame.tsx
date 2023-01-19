@@ -5,7 +5,7 @@ import {
   ModalContainer,
   ModalInnerContainer,
   ModalTitle,
-} from './style';
+} from './ModalFrame.styled';
 
 import useModal from '@/hooks/useModal';
 

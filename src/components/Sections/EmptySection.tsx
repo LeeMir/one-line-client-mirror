@@ -1,4 +1,4 @@
-import { EmptyContainer } from './style';
+import { EmptyContainer } from './EmptySection.styled';
 
 const EmptySection = () => {
   return <EmptyContainer />;

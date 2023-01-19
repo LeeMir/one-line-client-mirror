@@ -1,1 +1,3 @@
-export { default as MainPage } from './MainPage';
+export { MainPage } from './MainPage';
+export { LoginPage } from './LoginPage';
+export { ErrorPage } from './ErrorPage';

@@ -1,3 +1,5 @@
+import { useCallback, useEffect } from 'react';
+
 import {
   GoBottomBtn,
   GoBottomBtnImg,
@@ -5,14 +7,15 @@ import {
   SectionTitle,
   SectionContainer,
   TitleImg,
-} from './style';
+} from './SelectSection.styled';
 
-import Message from '@/components/Message';
+import { Message } from '@/components/Message';
 
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
 
 import { MessageValue } from '@/types/message';
+import { LocationStateValue } from '@/types/location';
 
 import { PAGE_STATE } from '@/constants/state';
 import WaiterImg from '@/assets/images/waiter.png';
@@ -55,24 +58,34 @@ const motionFadeIn = {
 
 interface SelectSectionValue {
   messageList: MessageValue[];
+  state?: LocationStateValue;
 }
 
-const SelectSection = ({ messageList }: SelectSectionValue) => {
+const SelectSection = ({ messageList, state }: SelectSectionValue) => {
   const { openScroll } = useScrollLock();
   const { getMainPageState, setMainPageState, setSelectedMsgIdx } = useMainPageState();
 
   const { pageState, selectedMsgIdx } = getMainPageState();
 
-  const clickMessageHandler = (idx: number) => {
-    if (pageState === PAGE_STATE.BEFORE_SELECT) {
-      setSelectedMsgIdx(idx);
-      setMainPageState(PAGE_STATE.AFTER_SELECT);
-    }
-  };
+  const clickMessageHandler = useCallback(
+    (idx: number) => {
+      if (pageState === PAGE_STATE.BEFORE_SELECT) {
+        setSelectedMsgIdx(idx);
+        setMainPageState(PAGE_STATE.AFTER_SELECT);
+      }
+    },
+    [pageState, setSelectedMsgIdx, setMainPageState],
+  );
 
   const clickGoBottomBtnHandler = () => {
     openScroll();
   };
+
+  useEffect(() => {
+    if (state?.lineId) {
+      clickMessageHandler(state.lineId as number);
+    }
+  }, [clickMessageHandler, state?.lineId]);
 
   return (
     <SectionContainer variants={motionContainer} initial='hidden' animate='show' exit='hidden'>

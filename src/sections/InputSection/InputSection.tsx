@@ -14,13 +14,17 @@ import {
   ResetButtonImg,
   LoginModalContainer,
   LoginModalText,
+  CategoryRadioGroupContainer,
 } from './InputSection.styled';
 
+import { RadioGroup } from '@/components/RadioGroup';
 import { KakaoLogin } from '@/components/OAuthLogin';
+import { Category } from '@/components/Category';
 
 import useModal from '@/hooks/useModal';
 import useMainPageState from '@/hooks/useMainPageState';
 import useLogin from '@/hooks/useLogin';
+import useCategory from '@/hooks/useCategory';
 
 import { LocationStateValue } from '@/types/location';
 
@@ -62,6 +66,8 @@ const InputSection = ({ state }: InputSectionValue) => {
   const { selectedMsgIdx } = getMainPageState();
 
   const [text, setText] = useState<string>((state?.content as string) ?? '');
+  const categoryList = Object.keys(useCategory());
+  const [category, setCategory] = useState<string>(categoryList[0] ?? '');
 
   const inputTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value);
@@ -80,7 +86,7 @@ const InputSection = ({ state }: InputSectionValue) => {
             <b>한 줄</b>을 남기기 위해서는 <br />
             로그인이 필요합니다.
           </LoginModalText>
-          <KakaoLogin onClick={() => loginWithKakao(selectedMsgIdx, text)} />
+          <KakaoLogin onClick={() => loginWithKakao(selectedMsgIdx, text, category)} />
         </LoginModalContainer>
       ),
     });
@@ -89,9 +95,22 @@ const InputSection = ({ state }: InputSectionValue) => {
   return (
     <SectionContainer variants={motionContainer} initial='hidden' animate='show' exit='hidden'>
       <TitleImg src={WaiterImg} variants={motionChild} layout />
-      <SectionTitle variants={motionChild} layout>
-        손님의 오늘의 한 줄은 무엇이었나요?
-      </SectionTitle>
+
+      {text === '' ? (
+        <SectionTitle variants={motionChild} layout>
+          손님의 오늘의 한 줄은 무엇이었나요?
+        </SectionTitle>
+      ) : null}
+
+      {text !== '' ? (
+        <CategoryRadioGroupContainer variants={motionChild} layout>
+          <RadioGroup name='select-category' value={category} setValue={setCategory}>
+            {categoryList.map((key) => (
+              <Category key={key} category={key} value={key} disabled={category !== key} />
+            ))}
+          </RadioGroup>
+        </CategoryRadioGroupContainer>
+      ) : null}
 
       <InputContainer variants={motionChild} layout>
         <InputImg src={PencilIcon} />

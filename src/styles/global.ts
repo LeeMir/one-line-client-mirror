@@ -37,6 +37,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     background-image: url('${BackgroundImg}');
     background-attachment: fixed;
+    background-position: center;
     background-size: cover;
   }
 `;

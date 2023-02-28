@@ -127,3 +127,14 @@ export const LoginModalText = styled.span`
     font-weight: ${FontWeight.MEDIUM};
   }
 `;
+
+export const CategoryRadioGroupContainer = styled(motion.div)`
+  display: flex;
+  flex-wrap: wrap;
+
+  width: 40rem;
+  align-items: center;
+  justify-content: center;
+
+  gap: 2rem;
+`;

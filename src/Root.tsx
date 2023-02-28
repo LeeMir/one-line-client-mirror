@@ -1,20 +1,19 @@
 import { RecoilRoot } from 'recoil';
+import { Outlet } from 'react-router-dom';
 
 import GlobalStyle from './styles/global';
 import ModalRoot from './components/Modal/ModalRoot';
 
-import Router from '@/routes';
-
 import '@/styles/font.css';
 
-const App = () => {
+const Root = () => {
   return (
     <RecoilRoot>
-      <Router />
+      <Outlet />
       <ModalRoot />
       <GlobalStyle />
     </RecoilRoot>
   );
 };
 
-export default App;
+export default Root;

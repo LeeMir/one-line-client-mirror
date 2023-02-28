@@ -6,7 +6,6 @@ import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
 import { MainPageContainer } from './MainPage.styled';
 
-import { EmptySection, InputSection, SelectSection } from '@/components/Sections';
 import { Curtain } from '@/components/Curtain';
 
 import useScrollLock from '@/hooks/useScrollLock';
@@ -14,6 +13,7 @@ import useMainPageState from '@/hooks/useMainPageState';
 
 import { scrollTo } from '@/utils/scroll';
 
+import { EmptySection, InputSection, SelectSection } from '@/sections';
 import { PAGE_STATE } from '@/constants/state';
 import { API_KEYS } from '@/constants/apiKey';
 import { fetchGetThreeLines } from '@/apis/line';

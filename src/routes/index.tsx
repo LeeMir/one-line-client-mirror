@@ -1,17 +1,25 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
+import Root from '@/Root';
 import { ErrorPage, LoginPage, MainPage } from '@/pages';
 
-const Router = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<MainPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/error' element={<ErrorPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    children: [
+      {
+        path: '',
+        element: <MainPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/login',
+        element: <LoginPage />,
+        errorElement: <ErrorPage />,
+      },
+    ],
+  },
+]);
 
-export default Router;
+export default router;

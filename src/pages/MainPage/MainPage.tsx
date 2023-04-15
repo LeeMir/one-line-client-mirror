@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
@@ -10,15 +9,28 @@ import { Curtain } from '@/components/Curtain';
 
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
+import useLogin from '@/hooks/useLogin';
 
+import { safeLocalStorage } from '@/utils/storage';
 import { scrollTo } from '@/utils/scroll';
 
 import { EmptySection, InputSection, SelectSection } from '@/sections';
+import { STORAGE_KEYS } from '@/constants/storageKey';
 import { PAGE_STATE } from '@/constants/state';
 import { API_KEYS } from '@/constants/apiKey';
-import { fetchGetThreeLines } from '@/apis/line';
+import { fetchGetOneLine, fetchGetThreeLines } from '@/apis/line';
 
 const EMPTY_SECTIONS = 6;
+
+const EmptySections = () => {
+  return (
+    <>
+      {new Array(EMPTY_SECTIONS).fill(false).map((_, idx) => (
+        <EmptySection key={idx} />
+      ))}
+    </>
+  );
+};
 
 const MainPage = () => {
   const { scrollYProgress } = useScroll();
@@ -29,13 +41,29 @@ const MainPage = () => {
   const progress = useTransform(scrollYProgress, [0, 1], [0, innerWidth]);
 
   const { isLock, lockScroll, openScroll } = useScrollLock();
-  const { getMainPageState, setMainPageState } = useMainPageState();
+  const { getMainPageState, setMainPageState, setSelectedMsgId } = useMainPageState();
 
-  const { state } = useLocation();
   const { pageState } = getMainPageState();
   const [pageOffset, setPageOffset] = useState(0);
 
-  const { status, data: msgList } = useQuery(API_KEYS.GET_THREE_LINES, fetchGetThreeLines);
+  const { getMe } = useLogin();
+  const { isLogined } = getMe();
+
+  const { isSuccess: msgListSuccess, data: msgList } = useQuery(
+    API_KEYS.GET_THREE_LINES,
+    fetchGetThreeLines,
+    {
+      enabled: !isLogined || !safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID),
+    },
+  );
+
+  const { isSuccess: msgSuccess, data: msg } = useQuery(
+    API_KEYS.GET_ONE_LINE,
+    () => fetchGetOneLine(safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID)!),
+    {
+      enabled: isLogined && !!safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID),
+    },
+  );
 
   const handleScroll = () => {
     const offset = window.scrollY / window.innerHeight;
@@ -49,7 +77,8 @@ const MainPage = () => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
-    if (state?.lineId && state?.content && state?.name) {
+    if (isLogined && safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID)) {
+      setSelectedMsgId(Number(safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID, true)));
       openScroll();
     } else {
       lockScroll();
@@ -79,22 +108,16 @@ const MainPage = () => {
   return (
     <MainPageContainer>
       <div ref={scrollTopRef} />
-      {new Array(EMPTY_SECTIONS).fill(false).map((_, idx) => (
-        <EmptySection key={idx} />
-      ))}
+      <EmptySections />
       <Curtain progress={progress} />
-      {status !== 'success' ? (
-        <>Loading...</>
-      ) : (
+      {msgListSuccess || msgSuccess ? (
         <AnimatePresence mode='wait'>
           {pageState <= PAGE_STATE.AFTER_SELECT ? (
-            <SelectSection key='section-select' messageList={msgList} state={state} />
+            <SelectSection key='section-select' messageList={msgList ?? [msg!]} />
           ) : null}
-          {pageState === PAGE_STATE.INPUT ? (
-            <InputSection key='section-input' state={state} />
-          ) : null}
+          {pageState === PAGE_STATE.INPUT ? <InputSection key='section-input' /> : null}
         </AnimatePresence>
-      )}
+      ) : null}
       <div ref={scrollBottomRef} />
     </MainPageContainer>
   );

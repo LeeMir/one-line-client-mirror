@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { Suspense } from 'react';
 
 import Root from '@/Root';
-import { ErrorPage, LoginPage, MainPage } from '@/pages';
+import { ErrorPage, LoadingPage, MainPage } from '@/pages';
 
 const router = createBrowserRouter([
   {
@@ -10,12 +11,20 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <MainPage />,
+        element: (
+          <Suspense fallback={<LoadingPage />}>
+            <MainPage />
+          </Suspense>
+        ),
         errorElement: <ErrorPage />,
       },
       {
         path: '/login',
-        element: <LoginPage />,
+        element: (
+          <Suspense fallback={<LoadingPage />}>
+            <MainPage />
+          </Suspense>
+        ),
         errorElement: <ErrorPage />,
       },
     ],

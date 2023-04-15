@@ -17,14 +17,14 @@ const useMainPageState = () => {
     setPageState((prev) => ({ ...prev, pageState: state }));
   };
 
-  const setSelectedMsgIdx = (idx: number) => {
-    setPageState((prev) => ({ ...prev, selectedMsgIdx: idx }));
+  const setSelectedMsgId = (idx: number) => {
+    setPageState((prev) => ({ ...prev, selectedMsgId: idx }));
   };
 
   return {
     getMainPageState,
     setMainPageState,
-    setSelectedMsgIdx,
+    setSelectedMsgId,
   };
 };
 

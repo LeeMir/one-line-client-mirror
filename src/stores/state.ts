@@ -8,6 +8,6 @@ export const pageStateState = atom<MainPageStateValue>({
   key: 'pageStateState',
   default: {
     pageState: PAGE_STATE.BEFORE_SELECT,
-    selectedMsgIdx: -1,
+    selectedMsgId: -1,
   },
 });

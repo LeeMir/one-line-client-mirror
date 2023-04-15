@@ -1,5 +1,10 @@
 import { MessageValue } from './message';
 
+export type IOneLine = MessageValue & {
+  user_id: number;
+  liked: number;
+};
+
 export type IThreeLines = (MessageValue & {
   id: number;
   user_id: number;
@@ -11,3 +16,16 @@ export type ITitleColor = {
   title_korean: string;
   color: string;
 }[];
+
+export type ISelectLineBeforeLogin = {
+  id: number;
+};
+
+export type IInputLineBeforeLogin = {
+  title: string;
+  content: string;
+};
+
+export type IUserInfo = {
+  name: string;
+};

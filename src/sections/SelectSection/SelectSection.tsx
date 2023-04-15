@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 import {
   GoBottomBtn,
@@ -14,9 +14,11 @@ import { Message } from '@/components/Message';
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
 
-import { MessageValue } from '@/types/message';
-import { LocationStateValue } from '@/types/location';
+import { safeLocalStorage } from '@/utils/storage';
 
+import { MessageValue } from '@/types/message';
+
+import { STORAGE_KEYS } from '@/constants/storageKey';
 import { PAGE_STATE } from '@/constants/state';
 import WaiterImg from '@/assets/images/waiter.png';
 import PenDrawingIcon from '@/assets/icons/icon-pen-drawing.svg';
@@ -58,34 +60,28 @@ const motionFadeIn = {
 
 interface SelectSectionValue {
   messageList: MessageValue[];
-  state?: LocationStateValue;
 }
 
-const SelectSection = ({ messageList, state }: SelectSectionValue) => {
+const SelectSection = ({ messageList }: SelectSectionValue) => {
   const { openScroll } = useScrollLock();
-  const { getMainPageState, setMainPageState, setSelectedMsgIdx } = useMainPageState();
+  const { getMainPageState, setMainPageState, setSelectedMsgId } = useMainPageState();
 
-  const { pageState, selectedMsgIdx } = getMainPageState();
+  const { pageState, selectedMsgId } = getMainPageState();
 
   const clickMessageHandler = useCallback(
-    (idx: number) => {
+    (id: number) => {
       if (pageState === PAGE_STATE.BEFORE_SELECT) {
-        setSelectedMsgIdx(idx);
+        safeLocalStorage.set(STORAGE_KEYS.SELECTED_LINE_ID, id.toString());
+        setSelectedMsgId(id);
         setMainPageState(PAGE_STATE.AFTER_SELECT);
       }
     },
-    [pageState, setSelectedMsgIdx, setMainPageState],
+    [pageState, setSelectedMsgId, setMainPageState],
   );
 
   const clickGoBottomBtnHandler = () => {
     openScroll();
   };
-
-  useEffect(() => {
-    if (state?.lineId) {
-      clickMessageHandler(state.lineId as number);
-    }
-  }, [clickMessageHandler, state?.lineId]);
 
   return (
     <SectionContainer variants={motionContainer} initial='hidden' animate='show' exit='hidden'>
@@ -106,15 +102,16 @@ const SelectSection = ({ messageList, state }: SelectSectionValue) => {
       ) : null}
 
       <MessageListContainer variants={motionMsgListContainer} layout transition={{ duration: 0.5 }}>
-        {messageList.map((item, idx) =>
-          pageState === PAGE_STATE.BEFORE_SELECT || idx === selectedMsgIdx ? (
+        {messageList.map((item) =>
+          pageState === PAGE_STATE.BEFORE_SELECT || item.id === selectedMsgId ? (
             <Message
-              key={idx}
+              key={item.id}
+              id={item.id}
               variants={motionChild}
               title={item.title}
               content={item.content}
-              onClick={() => clickMessageHandler(idx)}
-              selected={idx === selectedMsgIdx}
+              onClick={() => clickMessageHandler(item.id)}
+              selected={item.id === selectedMsgId}
               layout
             />
           ) : null,

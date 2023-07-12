@@ -7,6 +7,9 @@ import { ColorCode } from '@/constants/color';
 export const SectionContainer = styled(motion.div)`
   width: 100vw;
   height: 100vh;
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  }
 
   display: flex;
   flex-direction: column;

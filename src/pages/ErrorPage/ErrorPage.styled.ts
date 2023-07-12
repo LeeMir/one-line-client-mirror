@@ -6,6 +6,9 @@ import { ColorCode } from '@/constants/color';
 export const ErrorPageContainer = styled.div`
   width: 100vw;
   height: 100vh;
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  }
 
   display: flex;
   align-items: center;

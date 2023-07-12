@@ -23,12 +23,16 @@ const fetchApi = {
       credentials: 'include',
       headers: getHeader(),
     }).then(async (response) => {
-      const data = await response.json();
+      try {
+        const data = await response.json();
 
-      if (response.ok) {
-        return data;
+        if (response.ok) {
+          return data;
+        }
+        throw new Error(`GET ${path}`);
+      } catch (err) {
+        console.error(err);
       }
-      throw new FetchError(response);
     });
   },
 
@@ -40,12 +44,16 @@ const fetchApi = {
       headers: getHeader(),
       body: JSON.stringify(body),
     }).then(async (response) => {
-      const data = await response.json();
+      try {
+        const data = await response.json();
 
-      if (response.ok) {
-        return data;
+        if (response.ok) {
+          return data;
+        }
+        throw new Error(`POST ${path}`);
+      } catch (err) {
+        console.error(err);
       }
-      throw new FetchError(response);
     });
   },
 

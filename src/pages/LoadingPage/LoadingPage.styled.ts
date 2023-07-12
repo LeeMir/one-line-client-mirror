@@ -6,6 +6,9 @@ export const LoadingPageContainer = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  }
 
   align-items: center;
   justify-content: center;

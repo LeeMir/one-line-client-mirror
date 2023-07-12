@@ -34,6 +34,8 @@ export const MessageContainer = styled(motion.div)`
     width: 100%;
     padding: 1rem 1.5rem;
 
+    position: relative;
+
     color: ${ColorCode.WHITE};
 
     background: rgba(0, 0, 0, 0.2);

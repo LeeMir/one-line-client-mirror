@@ -17,6 +17,9 @@ export const SectionContainer = styled(motion.div)`
   justify-content: center;
 
   gap: 5rem;
+
+  padding: 3rem;
+  box-sizing: border-box;
 `;
 
 export const SectionTitle = styled(motion.span)`
@@ -25,6 +28,8 @@ export const SectionTitle = styled(motion.span)`
   color: ${ColorCode.WHITE};
   text-align: center;
   line-height: 1.5;
+
+  word-break: keep-all;
 `;
 
 export const TitleImg = styled(motion.img)`
@@ -39,6 +44,8 @@ export const MessageListContainer = styled(motion.div)`
   justify-content: center;
 
   gap: 3rem;
+
+  width: 100%;
 `;
 
 export const GoBottomBtn = styled(motion.button)`
@@ -64,6 +71,24 @@ export const GoBottomBtn = styled(motion.button)`
   }
 
   transition: background-color 0.35s ease-in-out;
+
+  @media screen and (max-width: 767px) {
+    width: 22rem;
+    padding: 1rem 1.5rem;
+
+    color: ${ColorCode.WHITE};
+
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(8px);
+
+    border: 1px solid ${ColorCode.CURTAIN};
+    border-radius: 2rem;
+
+    img {
+      filter: invert(100%);
+    }
+  }
 `;
 
 export const GoBottomBtnImg = styled.img`

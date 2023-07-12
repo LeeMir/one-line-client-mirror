@@ -18,7 +18,7 @@ export const CategoryWrapper = styled.div<CategoryWrapperValue>`
   height: 2.5rem;
   box-sizing: border-box;
   border-radius: 1.5rem;
-  font-size: ${FontSize.L};
+  font-size: ${FontSize.M};
 
   background-color: ${(props) => (props.disabled ? 'none' : props.backgroundColor)};
   color: ${(props) => (props.disabled ? ColorCode.WHITE : props.color)};

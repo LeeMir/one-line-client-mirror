@@ -33,7 +33,7 @@ const Message = ({
     >
       <Category category={title} />
       <MessageWrapper>{content}</MessageWrapper>
-      <RecommendBtn selected={selected}>
+      <RecommendBtn className='recommend-btn' selected={selected}>
         <RecommendImg src={RecommendIcon} />
       </RecommendBtn>
     </MessageContainer>

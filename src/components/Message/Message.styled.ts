@@ -18,6 +18,8 @@ export const MessageContainer = styled(motion.div)`
   background-color: ${ColorCode.OFFWHITE};
   box-shadow: 5px 15px 10px rgba(0, 0, 0, 0.35);
 
+  font-size: ${FontSize.L};
+
   &:hover {
     background-color: ${ColorCode.WHITE};
     button img {
@@ -27,6 +29,38 @@ export const MessageContainer = styled(motion.div)`
   }
 
   transition: background-color 0.35s ease-in-out;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 1rem 1.5rem;
+
+    color: ${ColorCode.WHITE};
+
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(8px);
+
+    border: 1px solid ${ColorCode.WHITE};
+    border-radius: 2rem;
+
+    .category {
+      position: absolute;
+      top: 0;
+      border: 1px solid ${ColorCode.WHITE};
+      transform: translateY(-50%);
+
+      width: 5rem;
+      height: 2rem;
+    }
+
+    .recommend-btn {
+      display: none;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
 `;
 
 export const MessageWrapper = styled.div`
@@ -35,8 +69,6 @@ export const MessageWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
-  font-size: ${FontSize.L};
 `;
 
 interface BtnValue {

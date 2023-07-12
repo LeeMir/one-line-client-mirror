@@ -1,3 +1,4 @@
+import { useMutation } from 'react-query';
 import React, { useState } from 'react';
 
 import {
@@ -15,6 +16,13 @@ import {
   LoginModalContainer,
   LoginModalText,
   CategoryRadioGroupContainer,
+  SendModalContainer,
+  SendModalHeader,
+  SendModalText,
+  SendModalBtnContainer,
+  SendModalBtn,
+  SendModalHeaderImg,
+  SendModalBtnImg,
 } from './InputSection.styled';
 import { motionContainer, motionCross, motionRaise, motionSink } from './InputSection.motion';
 
@@ -29,13 +37,17 @@ import useCategory from '@/hooks/useCategory';
 import { safeLocalStorage } from '@/utils/storage';
 
 import { STORAGE_KEYS } from '@/constants/storageKey';
+import { API_KEYS } from '@/constants/apiKey';
 import WaiterImg from '@/assets/images/waiter.png';
 import XIcon from '@/assets/icons/icon-x.svg';
 import SendIcon from '@/assets/icons/icon-send.svg';
 import PencilIcon from '@/assets/icons/icon-pen-signature.svg';
+import MailboxIcon from '@/assets/icons/icon-mailbox.svg';
+import MailSendIcon from '@/assets/icons/icon-mail-send.svg';
+import { fetchSendLine } from '@/apis/line';
 
 const InputSection = () => {
-  const { showModal } = useModal();
+  const { showModal, hideModal } = useModal();
   const { getMe, loginWithKakao } = useLogin();
 
   const [text, setText] = useState<string>(
@@ -46,6 +58,8 @@ const InputSection = () => {
     safeLocalStorage.get(STORAGE_KEYS.INPUTED_LINE_CATEGORY, false) ?? categoryList[0] ?? '',
   );
 
+  const sendLineMutation = useMutation(API_KEYS.SEND_LINE, fetchSendLine);
+
   const inputTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value);
   };
@@ -54,8 +68,36 @@ const InputSection = () => {
     setText('');
   };
 
+  const sendHandler = () => {
+    sendLineMutation.mutate({ title: category, content: text });
+
+    hideModal();
+  };
+
   const clickSendBtnHandler = () => {
-    if (!getMe().isLogined) {
+    if (getMe().isLogined) {
+      showModal({
+        type: 'alert',
+        children: (
+          <SendModalContainer>
+            <SendModalHeader>
+              <SendModalHeaderImg src={MailboxIcon} />한 줄 전송
+            </SendModalHeader>
+            <SendModalText>
+              <Category category={category} />
+              {text}
+            </SendModalText>
+            <SendModalBtnContainer>
+              <SendModalBtn onClick={hideModal}>취소</SendModalBtn>
+              <SendModalBtn onClick={sendHandler} isPrimary>
+                <SendModalBtnImg src={MailSendIcon} />
+                전송하기
+              </SendModalBtn>
+            </SendModalBtnContainer>
+          </SendModalContainer>
+        ),
+      });
+    } else {
       safeLocalStorage.set(STORAGE_KEYS.INPUTED_LINE_CATEGORY, category);
       safeLocalStorage.set(STORAGE_KEYS.INPUTED_LINE_CONTENT, text);
 

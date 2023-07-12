@@ -77,16 +77,20 @@ const MainPage = () => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
-    if (isLogined && safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID)) {
-      setSelectedMsgId(Number(safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID, true)));
-      openScroll();
-    } else {
-      lockScroll();
-    }
+    lockScroll();
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (isLogined && safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID)) {
+      setSelectedMsgId(Number(safeLocalStorage.get(STORAGE_KEYS.SELECTED_LINE_ID, true)));
+      setMainPageState(PAGE_STATE.INPUT);
+      openScroll();
+    }
+  }, [isLogined]);
 
   useEffect(() => {
     if (!isLock) {

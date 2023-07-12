@@ -19,7 +19,12 @@ const Category = ({ category, value = '', disabled = false }: CategoryValue) => 
   const textColor = getContrastColorOnlyBW(bgColor);
 
   return (
-    <CategoryWrapper backgroundColor={bgColor} color={textColor} disabled={disabled}>
+    <CategoryWrapper
+      className='category'
+      backgroundColor={bgColor}
+      color={textColor}
+      disabled={disabled}
+    >
       {title_korean ?? value}
     </CategoryWrapper>
   );

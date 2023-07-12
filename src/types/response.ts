@@ -17,6 +17,10 @@ export type ITitleColor = {
   color: string;
 }[];
 
+export type ISendLine = {
+  result: string;
+};
+
 export type ISelectLineBeforeLogin = {
   id: number;
 };

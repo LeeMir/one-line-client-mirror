@@ -34,6 +34,10 @@ export const ModalInnerContainer = styled.div`
   border-radius: 15px;
   overflow: hidden;
   z-index: 1;
+
+  @media screen and (max-width: 767px) {
+    width: calc(100% - 6rem);
+  }
 `;
 
 export const ModalTitle = styled.span`

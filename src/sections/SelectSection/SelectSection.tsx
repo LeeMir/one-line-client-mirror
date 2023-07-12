@@ -97,6 +97,7 @@ const SelectSection = ({ messageList }: SelectSectionValue) => {
         <SectionTitle variants={motionFadeIn}>
           감사합니다! <br />
           손님도 한 줄 적어보시겠어요? <br />
+          <br />
           로그인하시면 고른 한 줄을 담아서 보실 수도 있습니다!
         </SectionTitle>
       ) : null}

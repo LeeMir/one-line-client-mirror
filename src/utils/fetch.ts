@@ -6,6 +6,7 @@ const baseUrl = VITE_BASE_URL;
 
 const header = {
   // authorization: '',
+  'Content-Type': 'application/json',
 };
 
 const getHeader = () => {

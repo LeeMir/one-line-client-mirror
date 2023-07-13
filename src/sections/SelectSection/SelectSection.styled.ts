@@ -35,10 +35,6 @@ export const SectionTitle = styled(motion.span)`
   word-break: keep-all;
 `;
 
-export const TitleImg = styled(motion.img)`
-  width: 20rem;
-`;
-
 export const MessageListContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;

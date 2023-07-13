@@ -6,13 +6,14 @@ import {
   MessageListContainer,
   SectionTitle,
   SectionContainer,
-  TitleImg,
 } from './SelectSection.styled';
 
 import { Message } from '@/components/Message';
+import { Barista } from '@/components/Barista';
 
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
+import useLogin from '@/hooks/useLogin';
 
 import { safeLocalStorage } from '@/utils/storage';
 
@@ -20,7 +21,6 @@ import { MessageValue } from '@/types/message';
 
 import { STORAGE_KEYS } from '@/constants/storageKey';
 import { PAGE_STATE } from '@/constants/state';
-import WaiterImg from '@/assets/images/waiter.png';
 import PenDrawingIcon from '@/assets/icons/icon-pen-drawing.svg';
 
 const motionContainer = {
@@ -67,6 +67,7 @@ const SelectSection = ({ messageList }: SelectSectionValue) => {
   const { getMainPageState, setMainPageState, setSelectedMsgId } = useMainPageState();
 
   const { pageState, selectedMsgId } = getMainPageState();
+  const { getMe } = useLogin();
 
   const clickMessageHandler = useCallback(
     (id: number) => {
@@ -85,11 +86,11 @@ const SelectSection = ({ messageList }: SelectSectionValue) => {
 
   return (
     <SectionContainer variants={motionContainer} initial='hidden' animate='show' exit='hidden'>
-      <TitleImg src={WaiterImg} variants={motionChild} layout />
+      <Barista variants={motionChild} layout />
 
       {pageState === PAGE_STATE.BEFORE_SELECT ? (
         <SectionTitle variants={motionChild}>
-          지구 어딘가에서 손님께 보낸 한 줄입니다. <br />
+          지구 어딘가에서 {getMe().name}님께 보낸 한 줄입니다. <br />
           가장 공감이 되는 한 줄은 무엇인가요?
         </SectionTitle>
       ) : null}

@@ -34,10 +34,6 @@ export const SectionTitle = styled(motion.span)`
   line-height: 1.5;
 `;
 
-export const TitleImg = styled(motion.img)`
-  width: 20rem;
-`;
-
 export const InputContainer = styled(motion.div)`
   display: flex;
   width: fit-content;

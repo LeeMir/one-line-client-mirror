@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import {
   SectionTitle,
   SectionContainer,
-  TitleImg,
   InputContainer,
   Input,
   InputImg,
@@ -29,6 +28,7 @@ import { motionContainer, motionCross, motionRaise, motionSink } from './InputSe
 import { RadioGroup } from '@/components/RadioGroup';
 import { KakaoLogin } from '@/components/OAuthLogin';
 import { Category } from '@/components/Category';
+import { Barista } from '@/components/Barista';
 
 import useModal from '@/hooks/useModal';
 import useLogin from '@/hooks/useLogin';
@@ -38,7 +38,6 @@ import { safeLocalStorage } from '@/utils/storage';
 
 import { STORAGE_KEYS } from '@/constants/storageKey';
 import { API_KEYS } from '@/constants/apiKey';
-import WaiterImg from '@/assets/images/waiter.png';
 import XIcon from '@/assets/icons/icon-x.svg';
 import SendIcon from '@/assets/icons/icon-send.svg';
 import PencilIcon from '@/assets/icons/icon-pen-signature.svg';
@@ -118,11 +117,11 @@ const InputSection = () => {
 
   return (
     <SectionContainer variants={motionContainer} initial='hidden' animate='show' exit='hidden'>
-      <TitleImg src={WaiterImg} variants={motionSink} layout />
+      <Barista variants={motionSink} layout />
 
       {text === '' ? (
         <SectionTitle variants={motionSink} layout>
-          손님의 오늘의 한 줄은 무엇이었나요?
+          {getMe().name}님의 오늘의 한 줄은 무엇이었나요?
         </SectionTitle>
       ) : null}
 

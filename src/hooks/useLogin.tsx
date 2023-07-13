@@ -15,10 +15,10 @@ const useLogin = () => {
   };
 
   const getMe = () => {
-    if (res.isSuccess) {
+    if (res?.data) {
       return { ...res.data, isLogined: true };
     }
-    return { isLogined: false };
+    return { name: '손', isLogined: false };
   };
 
   return {
